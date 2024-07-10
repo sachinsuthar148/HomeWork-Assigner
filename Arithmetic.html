@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arithmetic Operations on Random Numbers</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<center>
+<h1>HomeWork Assigner</h1>
+<div class="operations">
+    <label for="globalOperation"> <b>Change all operations to: </b></label>
+    <select id="globalOperation" onchange="changeAllOperations(this.value)">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">/</option>
+    </select> <br><br>
+    <button onclick="performOperation()" class="btn">Calculate</button>
+    <button onclick="generateNewNumbers()" class="btn">Generate New Numbers</button>
+</div>
+</center>
+<table id="numbersTable">
+    <thead>
+        <tr>
+            <th>Number 1</th>
+            <th>Number 2</th>
+            <th>Operation</th>
+            <th>Output</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Rows will be added dynamically -->
+    </tbody>
+</table>
+<br>
+<div class="footer">
+    Designed by Sachin Suthar   <br> All rights reserved to Sachin Suthar
+</div>
+
+<script>
+    // Function to generate random numbers
+    function generateRandomNumbers() {
+        return Array.from({ length: 10 }, () => Math.floor(Math.random() * 100) + 1);
+    }
+
+    // Function to create the table rows
+    function createTableRows(numbers) {
+        const tbody = document.getElementById('numbersTable').getElementsByTagName('tbody')[0];
+        tbody.innerHTML = ''; // Clear existing rows
+        for (let i = 0; i < numbers.length - 1; i++) {
+            const row = tbody.insertRow();
+            row.innerHTML = `
+                <td><input class="number-input" type="number" value="${numbers[i]}"></td>
+                <td><input class="number-input" type="number" value="${numbers[i + 1]}"></td>
+                <td>
+                    <select class="row-operation">
+                        <option value="+">+</option>
+                        <option value="-">-</option>
+                        <option value="*">*</option>
+                        <option value="/">/</option>
+                    </select>
+                </td>
+                <td class="output"></td>
+            `;
+        }
+    }
+
+    // Function to change all operations
+    function changeAllOperations(operation) {
+        const selects = document.getElementsByClassName('row-operation');
+        for (let select of selects) {
+            select.value = operation;
+        }
+    }
+
+    // Function to perform the selected operation
+    function performOperation() {
+        const tbody = document.getElementById('numbersTable').getElementsByTagName('tbody')[0];
+        for (let row of tbody.rows) {
+            const num1 = parseFloat(row.cells[0].getElementsByTagName('input')[0].value);
+            const num2 = parseFloat(row.cells[1].getElementsByTagName('input')[0].value);
+            const operation = row.cells[2].getElementsByTagName('select')[0].value;
+            let result;
+            switch (operation) {
+                case '+':
+                    result = num1 + num2;
+                    break;
+                case '-':
+                    result = num1 - num2;
+                    break;
+                case '*':
+                    result = num1 * num2;
+                    break;
+                case '/':
+                    result = num1 / num2;
+                    break;
+                default:
+                    result = num1 + num2;
+            }
+            row.cells[3].innerText = result;
+        }
+    }
+
+    // Function to generate new random numbers and update the table
+    function generateNewNumbers() {
+        const randomNumbers = generateRandomNumbers();
+        createTableRows(randomNumbers);
+    }
+
+    // Initialize table with random numbers
+    const randomNumbers = generateRandomNumbers();
+    createTableRows(randomNumbers);
+</script>
+
+</body>
+</html>

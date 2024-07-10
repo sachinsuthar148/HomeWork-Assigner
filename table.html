@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Multiplication Table Generator</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <h1>Table Generator</h1>
+
+    <div class="input-container">
+      <!-- <label for="number">Enter a number:</label><br /> -->
+      <input type="number" max="500" id="number" min="1" step="1" class="ip" placeholder="Enter a number" /><br />
+      <br />
+      <button onclick="generateTable()" class="btn" role="button">
+        Generate Table
+      </button>
+    </div>
+
+    <div class="table-container" id="tableContainer">
+      <!-- Table will be generated dynamically here -->
+    </div>
+
+
+    <div class="footer">
+        Designed by Sachin Suthar <br>All rights reserved to Sachin Suthar
+    </div>
+
+    <script>
+      function generateTable() {
+        // Clear previous table if exists
+        document.getElementById("tableContainer").innerHTML = "";
+
+        // Get user input number
+        const number = parseInt(document.getElementById("number").value);
+
+        // Create table element
+        const table = document.createElement("table");
+
+        // Create table header row
+        const headerRow = table.createTHead().insertRow();
+        headerRow.innerHTML =
+          "<th>Multiplicand</th><th>Multiplier</th><th>Result</th>";
+
+        // Create table body
+        const tbody = table.createTBody();
+        for (let i = 1; i <= 10; i++) {
+          const row = tbody.insertRow();
+          const multiplicand = i;
+          const multiplier = number;
+          const result = multiplicand * multiplier;
+          row.innerHTML = `<td>${multiplicand}</td><td>${multiplier}</td><td>${result}</td>`;
+        }
+
+        // Append table to container
+        document.getElementById("tableContainer").appendChild(table);
+      }
+    </script>
+  </body>
+</html>
